@@ -1,0 +1,707 @@
+<div class="moodle-exam-container" style="font-family: 'Segoe UI', Arial, sans-serif; color: #2c3e50; line-height: 1.6; max-width: 1060px; margin: 20px auto; padding: 40px; border: 1px solid #d1d5db; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+
+<style>
+  .exam-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.88em; }
+  .exam-table th { background-color: #34495e; color: white; border: 1px solid #bbb; padding: 9px 10px; text-align: center; }
+  .exam-table td { border: 1px solid #ccc; padding: 8px 10px; text-align: center; }
+  .exam-table td.lft { text-align: left; }
+  .layout-label { font-size: 0.82em; font-weight: bold; color: #5d6d7e; text-transform: uppercase;
+                  margin-top: 22px; display: block; border-left: 4px solid #3498db; padding-left: 10px; }
+  .problem-header { color: #2980b9; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 40px; }
+  .validation-box { background: #f1f8ff; border: 1px solid #cce5ff; padding: 12px 15px;
+                    border-radius: 6px; margin: 12px 0; color: #004085; }
+  .step-box { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px;
+              padding: 16px 20px; margin: 14px 0; }
+  .step-box ol { margin: 6px 0 0 0; padding-left: 20px; }
+  .step-box li { margin-bottom: 7px; }
+  .step-box li b { color: #1a252f; }
+  .cell-ref { font-family: "Courier New", monospace; background: #e8f4f8; color: #1a5276;
+              padding: 1px 5px; border-radius: 3px; font-size: 0.93em; }
+  .formula { font-family: "Courier New", monospace; background: #fdf2e9; color: #7d3c00;
+             padding: 2px 7px; border-radius: 3px; font-size: 0.91em; display: inline-block; }
+  .formula-block { font-family: "Courier New", monospace; background: #fdfcf5;
+                   border: 1px solid #e8e0c0; color: #5d4000; padding: 10px 14px;
+                   border-radius: 5px; font-size: 0.9em; white-space: pre-wrap;
+                   display: block; margin: 8px 0; line-height: 1.8; }
+  .math-block { background: #f5f5f5; border-left: 3px solid #95a5a6; padding: 10px 16px;
+                font-size: 1.05em; margin: 10px 0; border-radius: 4px; font-style: italic; }
+  .score-breakdown { background: #fefefe; border: 1px solid #d6eaf8; border-radius: 6px;
+                     padding: 12px 16px; margin: 10px 0; }
+  .score-breakdown ul { margin: 4px 0; padding-left: 20px; }
+  .score-breakdown li { margin-bottom: 4px; }
+  .hint-box { background: #f0fff4; border-left: 4px solid #27ae60; padding: 10px 16px;
+              border-radius: 4px; margin: 12px 0; font-size: 0.93em; }
+  .hint-box p { margin: 5px 0; }
+  .sheet-tag { display: inline-block; background: #2ecc71; color: white; font-size: 0.78em;
+               font-weight: bold; padding: 2px 9px; border-radius: 10px; margin-left: 8px;
+               vertical-align: middle; letter-spacing: 0.5px; }
+  .highlight-row { background: #d5f5e3 !important; }
+</style>
+
+<!-- ── HEADER ─────────────────────────────────────────────────────── -->
+<div style="text-align:center; border-bottom:3px double #3498db; padding-bottom:20px; margin-bottom:28px;">
+  <h2 style="margin:0; color:#2980b9; text-transform:uppercase; letter-spacing:1px;">Numerical Methods — Semi Final Lab Exam</h2>
+  <p style="margin:5px 0; font-weight:600; color:#7f8c8d;">Academic Year: 2025-2026 &nbsp;|&nbsp; 2nd Semester &nbsp;|&nbsp; CPE 6</p>
+</div>
+
+<!-- ── STUDENT INFO ───────────────────────────────────────────────── -->
+<div style="background:#f8f9fa; padding:18px 20px; border-radius:8px; margin-bottom:28px; border:1px solid #e9ecef;">
+  <p style="margin:8px 0;"><strong>Name:</strong> ______________________________________________ &nbsp;&nbsp; <strong>Year &amp; Section:</strong> _______________</p>
+  <p style="margin:8px 0;"><strong>Proctor:</strong> _____________________________________________ &nbsp;&nbsp; <strong>Score:</strong> _____________________</p>
+</div>
+
+<!-- ── GENERAL INSTRUCTIONS ──────────────────────────────────────── -->
+<div style="background:#fff3cd; border-left:6px solid #ffc107; padding:15px 20px; margin-bottom:32px; color:#856404;">
+  <h4 style="margin:0 0 10px 0;">📝 General Instructions</h4>
+  <ul style="margin:0; padding-left:20px;">
+    <li>Create a single Excel workbook named <strong>LastName_LabExam.xlsx</strong>.</li>
+    <li>Each problem must be on its own sheet with the exact names: <strong>P1_GaussSeidel</strong>, <strong>P2_Jacobi</strong>, <strong>P3_LeastSquares</strong>, <strong>P4_Newton</strong>, <strong>P5_Lagrange</strong>.</li>
+    <li>All computed values <strong>must use Excel formulas with cell references</strong> — hard-coded numbers in formula cells receive zero credit.</li>
+    <li>Show <em>all</em> intermediate columns (intermediate differences, sums, etc.) as specified in each layout.</li>
+    <li>Use the step-by-step guides below to build each sheet; the column letters and row numbers refer to Excel cells.</li>
+  </ul>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<h1 style="background:#34495e; color:white; padding:10px 20px; border-radius:4px; font-size:1.45em;">Part 1 — Linear Algebraic Equations: Iterative Methods &nbsp;(50 pts)</h1>
+
+<!-- ────────────────────────────────── P1 ────────────────────────── -->
+<div style="padding:0 8px;">
+<h2 class="problem-header">Problem 1: Gauss-Seidel Iteration &nbsp;(25 pts) <span class="sheet-tag">Sheet: P1_GaussSeidel</span></h2>
+
+<p>Solve the following linear system starting from <strong>(x₁, x₂, x₃) = (0, 0, 0)</strong> using Gauss-Seidel iteration with stopping criterion <strong>ε<sub>s</sub> = 1%</strong>:</p>
+
+<div style="background:#fdf6e3; padding:18px 22px; font-family:monospace; font-size:1.1em; border-radius:6px; border:1px solid #eee; margin:14px 0; line-height:2;">
+  10x₁ &nbsp;+&nbsp; 2x₂ &nbsp;−&nbsp;&nbsp; x₃ &nbsp;= &nbsp;&nbsp; 27<br>
+  −3x₁ &nbsp;−&nbsp; 6x₂ &nbsp;+&nbsp; 2x₃ &nbsp;= &nbsp;−61.5<br>
+  &nbsp;&nbsp;x₁ &nbsp;+&nbsp;&nbsp; x₂ &nbsp;+&nbsp; 5x₃ &nbsp;= &nbsp;−21.5
+</div>
+
+<div class="score-breakdown">
+  <strong>■ Scoring Breakdown</strong>
+  <ul>
+    <li><strong>Diagonal Dominance Check (5 pts):</strong> Verify the system is diagonally dominant before iterating. Build the verification table below.</li>
+    <li><strong>Iteration Table (10 pts):</strong> Each row uses the most recently updated value (Gauss-Seidel rule). Rearranged formulas used to isolate each variable:
+      <div class="math-block">
+        x₁ = (27 − 2x₂ + x₃) / 10<br>
+        x₂ = (−61.5 + 3x₁ − 2x₃) / (−6)<br>
+        x₃ = (−21.5 − x₁ − x₂) / 5
+      </div>
+    </li>
+    <li><strong>Relative Approximate Error (5 pts):</strong> Compute after each iteration for every variable:
+      <div class="math-block">|ε<sub>a</sub>| = |x<sub>new</sub> − x<sub>old</sub>| / |x<sub>new</sub>| × 100%</div>
+    </li>
+    <li><strong>Convergence Highlight (5 pts):</strong> Mark the first row where <em>all three</em> |ε<sub>a</sub>| &lt; 1%.</li>
+  </ul>
+</div>
+
+<div class="validation-box">
+  ✅ <strong>Target for Validation:</strong> Exact solution: <strong>x₁ = 0.5 &nbsp;|&nbsp; x₂ = 8.0 &nbsp;|&nbsp; x₃ = −6.0</strong>. Your iterated values should converge to these within 1%.
+</div>
+
+<!-- Step-by-step Excel guide P1 -->
+<div class="step-box">
+  <strong>📋 Step-by-Step Excel Guide — P1_GaussSeidel</strong>
+  <ol>
+    <li><b>Enter the coefficient matrix (rows 2–4, columns B–E):</b><br>
+      <span class="cell-ref">B2</span>=10 &nbsp; <span class="cell-ref">C2</span>=2 &nbsp; <span class="cell-ref">D2</span>=-1 &nbsp; <span class="cell-ref">E2</span>=27<br>
+      <span class="cell-ref">B3</span>=-3 &nbsp; <span class="cell-ref">C3</span>=-6 &nbsp; <span class="cell-ref">D3</span>=2 &nbsp; <span class="cell-ref">E3</span>=-61.5<br>
+      <span class="cell-ref">B4</span>=1 &nbsp; <span class="cell-ref">C4</span>=1 &nbsp; <span class="cell-ref">D4</span>=5 &nbsp; <span class="cell-ref">E4</span>=-21.5<br>
+      Label column A: A2="Eq.1", A3="Eq.2", A4="Eq.3".</li>
+
+    <li><b>Build the Diagonal Dominance table (rows 7–10):</b><br>
+      Row 7 headers: <span class="cell-ref">A7</span>="Equation" &nbsp; <span class="cell-ref">B7</span>="|a<sub>ii</sub>|" &nbsp; <span class="cell-ref">C7</span>="Σ|a<sub>ij</sub>|(off-diag)" &nbsp; <span class="cell-ref">D7</span>="Dominant?" &nbsp; <span class="cell-ref">E7</span>="Excel Check"<br>
+      Row 8 (Eq.1 — diagonal is <strong>B2</strong>=10):
+      <span class="formula-block">B8 =ABS(B2)
+C8 =ABS(C2)+ABS(D2)
+D8 =IF(B8>C8,"YES","NO")
+E8 =B8>C8</span>
+      Row 9 (Eq.2 — diagonal is <strong>C3</strong>=−6):
+      <span class="formula-block">B9 =ABS(C3)
+C9 =ABS(B3)+ABS(D3)
+D9 =IF(B9>C9,"YES","NO")
+E9 =B9>C9</span>
+      Row 10 (Eq.3 — diagonal is <strong>D4</strong>=5):
+      <span class="formula-block">B10 =ABS(D4)
+C10 =ABS(B4)+ABS(C4)
+D10 =IF(B10>C10,"YES","NO")
+E10 =B10>C10</span>
+    </li>
+
+    <li><b>Set up iteration table headers (row 13):</b><br>
+      <span class="cell-ref">A13</span>="Iter" &nbsp; <span class="cell-ref">B13</span>="x₁" &nbsp; <span class="cell-ref">C13</span>="x₂" &nbsp; <span class="cell-ref">D13</span>="x₃" &nbsp;
+      <span class="cell-ref">E13</span>="|ε<sub>a</sub>| x₁ (%)" &nbsp; <span class="cell-ref">F13</span>="|ε<sub>a</sub>| x₂ (%)" &nbsp; <span class="cell-ref">G13</span>="|ε<sub>a</sub>| x₃ (%)" &nbsp; <span class="cell-ref">H13</span>="Converged?"</li>
+
+    <li><b>Enter iteration 0 (initial guess) in row 14:</b><br>
+      <span class="cell-ref">A14</span>=0 &nbsp; <span class="cell-ref">B14</span>=0 &nbsp; <span class="cell-ref">C14</span>=0 &nbsp; <span class="cell-ref">D14</span>=0 &nbsp;
+      <span class="cell-ref">E14</span>="—" &nbsp; <span class="cell-ref">F14</span>="—" &nbsp; <span class="cell-ref">G14</span>="—" &nbsp; <span class="cell-ref">H14</span>="—"</li>
+
+    <li><b>Enter Gauss-Seidel formulas for iteration 1 in row 15:</b><br>
+      <span class="formula-block">A15 =A14+1
+
+B15 =(E2-C2*C14-D2*D14)/B2
+     → Explanation: x₁ = (27 − 2·x₂_old + x₃_old) / 10
+       C14 and D14 are previous-iteration x₂ and x₃.
+
+C15 =(E3-B3*B15-D3*D14)/C3
+     → Explanation: x₂ = (−61.5 − (−3)·x₁_new − 2·x₃_old) / (−6)
+       Uses UPDATED x₁ (B15) — this is the Gauss-Seidel rule.
+       D14 is the still-unchanged x₃ from the previous iteration.
+
+D15 =(E4-B4*B15-C4*C15)/D4
+     → Explanation: x₃ = (−21.5 − x₁_new − x₂_new) / 5
+       Uses UPDATED x₁ (B15) and UPDATED x₂ (C15).
+
+E15 =IF(B15=0,100,ABS((B15-B14)/B15)*100)
+F15 =IF(C15=0,100,ABS((C15-C14)/C15)*100)
+G15 =IF(D15=0,100,ABS((D15-D14)/D15)*100)
+     → On iteration 1, old values are 0; error = 100% by convention.
+       The IF guard prevents division by zero when xnew itself equals 0.
+
+H15 =IF(AND(E15&lt;1,F15&lt;1,G15&lt;1),"YES ✓","No")</span>
+    </li>
+
+    <li><b>Copy row 15 downward:</b> Select <span class="cell-ref">A15:H15</span> and drag down until column H shows "YES ✓". The formulas automatically use the current row's updated values (Gauss-Seidel behavior) because they reference the cells in the SAME row for x₁ and x₂.</li>
+
+    <li><b>Highlight convergence:</b> Apply a green fill to the first row where H = "YES ✓" (use conditional formatting or fill manually).</li>
+  </ol>
+</div>
+
+<div class="hint-box">
+  <p><strong>▶ Diagonal Dominance:</strong> For each equation, the absolute value of the diagonal coefficient must be strictly greater than the sum of absolute values of all OTHER coefficients in that row. If true for all rows, convergence is guaranteed.</p>
+  <p><strong>▶ Gauss-Seidel update rule:</strong> When computing x₂ in row 15, use <span class="cell-ref">B15</span> (just computed), NOT <span class="cell-ref">B14</span> (previous). When computing x₃, use both <span class="cell-ref">B15</span> and <span class="cell-ref">C15</span>. This is what makes it Gauss-Seidel instead of Jacobi.</p>
+  <p><strong>▶ Stopping criterion:</strong> Stop iterating (stop copying rows down) when ALL three error columns are below 1% simultaneously.</p>
+  <p><strong>▶ Division by zero on iteration 1:</strong> If x<sub>new</sub> = 0 (unlikely here but possible in other problems), the error formula would divide by zero. The <span class="formula">=IF(B15=0,100,...)</span> guard handles this gracefully by reporting 100%.</p>
+</div>
+
+<span class="layout-label">Required Table Layout — Diagonal Dominance Verification</span>
+<table class="exam-table">
+  <thead>
+    <tr><th>Equation</th><th>|a<sub>ii</sub>|</th><th>Σ|a<sub>ij</sub>| (off-diagonal)</th><th>Dominant?</th><th>Excel Check (TRUE/FALSE)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="lft">Eq. 1: 10x₁ + 2x₂ − x₃ = 27</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="lft">Eq. 2: −3x₁ − 6x₂ + 2x₃ = −61.5</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="lft">Eq. 3: x₁ + x₂ + 5x₃ = −21.5</td><td></td><td></td><td></td><td></td></tr>
+  </tbody>
+</table>
+
+<span class="layout-label">Required Table Layout — Gauss-Seidel Iteration (extend rows until convergence)</span>
+<table class="exam-table">
+  <thead>
+    <tr><th>Iter</th><th>x₁</th><th>x₂</th><th>x₃</th><th>|ε<sub>a</sub>| x₁ (%)</th><th>|ε<sub>a</sub>| x₂ (%)</th><th>|ε<sub>a</sub>| x₃ (%)</th><th>Converged?</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>⋯</td><td>⋯</td><td>⋯</td><td>⋯</td><td>⋯</td><td>⋯</td><td>⋯</td><td>⋯</td></tr>
+  </tbody>
+</table>
+
+<!-- ────────────────────────────────── P2 ────────────────────────── -->
+<h2 class="problem-header">Problem 2: Jacobi Iteration &nbsp;(25 pts) <span class="sheet-tag">Sheet: P2_Jacobi</span></h2>
+
+<p>Using the <strong>same system and initial guess</strong> as Problem 1, apply the <strong>Jacobi iteration</strong> method with ε<sub>s</sub> = 1%.</p>
+
+<div class="score-breakdown">
+  <strong>■ Scoring Breakdown</strong>
+  <ul>
+    <li><strong>Rearranged Formulas (5 pts):</strong> Each variable uses ONLY values from the previous iteration n:
+      <div class="math-block">
+        x₁<sup>n+1</sup> = (27 − 2x₂<sup>n</sup> + x₃<sup>n</sup>) / 10<br>
+        x₂<sup>n+1</sup> = (−61.5 + 3x₁<sup>n</sup> − 2x₃<sup>n</sup>) / (−6)<br>
+        x₃<sup>n+1</sup> = (−21.5 − x₁<sup>n</sup> − x₂<sup>n</sup>) / 5
+      </div>
+    </li>
+    <li><strong>Iteration Table (10 pts):</strong> All three variables must be updated <em>simultaneously</em> using only the previous iteration's values. Use separate "prev" and "new" column groups.</li>
+    <li><strong>Relative Approximate Error (5 pts):</strong> Same formula as Problem 1, applied per variable:
+      <div class="math-block">|ε<sub>a</sub>| = |x<sub>new</sub> − x<sub>prev</sub>| / |x<sub>new</sub>| × 100%</div>
+      Report the <strong>maximum</strong> of the three errors in a single column.
+    </li>
+    <li><strong>Comparison Note (5 pts):</strong> Insert a text box on the sheet answering: Which method converged in fewer iterations? Why does diagonal dominance affect convergence speed?</li>
+  </ul>
+</div>
+
+<div class="validation-box">
+  ✅ <strong>Target for Validation:</strong> Same exact solution: <strong>x₁ = 0.5 &nbsp;|&nbsp; x₂ = 8.0 &nbsp;|&nbsp; x₃ = −6.0</strong>. Jacobi requires more iterations than Gauss-Seidel to converge.
+</div>
+
+<div class="step-box">
+  <strong>📋 Step-by-Step Excel Guide — P2_Jacobi</strong>
+  <ol>
+    <li><b>Re-enter (or copy) the coefficient matrix in rows 2–4, columns B–E</b> exactly as in P1_GaussSeidel. This keeps all formulas self-contained in this sheet.</li>
+
+    <li><b>Set up table headers in row 7:</b><br>
+      <span class="cell-ref">A7</span>="Iter" &nbsp;
+      <span class="cell-ref">B7</span>="x₁ (prev)" &nbsp; <span class="cell-ref">C7</span>="x₂ (prev)" &nbsp; <span class="cell-ref">D7</span>="x₃ (prev)" &nbsp;
+      <span class="cell-ref">E7</span>="x₁ (new)" &nbsp; <span class="cell-ref">F7</span>="x₂ (new)" &nbsp; <span class="cell-ref">G7</span>="x₃ (new)" &nbsp;
+      <span class="cell-ref">H7</span>="Max |ε<sub>a</sub>| (%)"</li>
+
+    <li><b>Enter iteration 0 (initial guess) in row 8:</b><br>
+      <span class="cell-ref">A8</span>=0 &nbsp; <span class="cell-ref">B8</span>=0 &nbsp; <span class="cell-ref">C8</span>=0 &nbsp; <span class="cell-ref">D8</span>=0 &nbsp;
+      <span class="cell-ref">E8</span>="—" &nbsp; <span class="cell-ref">F8</span>="—" &nbsp; <span class="cell-ref">G8</span>="—" &nbsp; <span class="cell-ref">H8</span>="—"</li>
+
+    <li><b>Enter Jacobi formulas for iteration 1 in row 9:</b><br>
+      <span class="formula-block">A9 =A8+1
+
+B9 =B8
+C9 =C8
+D9 =D8
+   → "prev" values for iteration 1 are simply copied from the initial row.
+     For iteration 2 onward, these will reference the "new" column of the row above.
+
+E9 =(E2-C2*C9-D2*D9)/B2
+   → x₁_new = (27 − 2·x₂_prev + x₃_prev) / 10
+     Uses C9 (x₂ prev) and D9 (x₃ prev) — NOT C8 or D8.
+     This is the KEY difference from Gauss-Seidel.
+
+F9 =(E3-B3*B9-D3*D9)/C3
+   → x₂_new = (−61.5 − (−3)·x₁_prev − 2·x₃_prev) / (−6)
+     Uses B9 (x₁ prev), D9 (x₃ prev) — uses OLD x₁, not the just-computed E9.
+
+G9 =(E4-B4*B9-C4*C9)/D4
+   → x₃_new = (−21.5 − x₁_prev − x₂_prev) / 5
+     Uses B9 (x₁ prev) and C9 (x₂ prev) — all from the previous iteration.
+
+H9 =MAX(
+     IF(E9=0,100,ABS((E9-B9)/E9)*100),
+     IF(F9=0,100,ABS((F9-C9)/F9)*100),
+     IF(G9=0,100,ABS((G9-D9)/G9)*100)
+   )</span>
+    </li>
+
+    <li><b>Enter row 10 (iteration 2) — this is the template for all remaining rows:</b><br>
+      <span class="formula-block">A10 =A9+1
+
+B10 =E9          ← x₁ prev = x₁ new from previous iteration
+C10 =F9          ← x₂ prev = x₂ new from previous iteration
+D10 =G9          ← x₃ prev = x₃ new from previous iteration
+
+E10 =(E2-C2*C10-D2*D10)/B2
+F10 =(E3-B3*B10-D3*D10)/C3
+G10 =(E4-B4*B10-C4*C10)/D4
+
+H10 =MAX(
+      IF(E10=0,100,ABS((E10-B10)/E10)*100),
+      IF(F10=0,100,ABS((F10-C10)/F10)*100),
+      IF(G10=0,100,ABS((G10-D10)/G10)*100)
+    )</span>
+    </li>
+
+    <li><b>Copy row 10 downward</b> until column H shows a value below 1%. Because <span class="cell-ref">B10</span>=<span class="cell-ref">E9</span> (etc.), the "prev" columns will automatically chain through each iteration.</li>
+
+    <li><b>Add the Comparison Text Box:</b> Insert → Text Box on the sheet. Type your answer explaining which method converged faster and why (see Hint below).</li>
+  </ol>
+</div>
+
+<div class="hint-box">
+  <p><strong>▶ Simultaneous update:</strong> In Jacobi, the new values for ALL variables are computed using ONLY the PREV columns of the CURRENT row (i.e., the same row's B, C, D). This is the fundamental difference from Gauss-Seidel, where x₁_new is immediately used when computing x₂_new.</p>
+  <p><strong>▶ Why "prev" columns exist:</strong> In Gauss-Seidel you can overwrite x₁, x₂, x₃ in place because each updated value is immediately used. In Jacobi you CANNOT overwrite until all three are computed — you need to hold the old values until the end of the sweep. The "prev" columns preserve those old values.</p>
+  <p><strong>▶ Convergence comparison (for your text box):</strong> Gauss-Seidel converges in fewer iterations because it uses each updated value immediately, propagating information faster within a single sweep. Both methods converge when the system is diagonally dominant, but Gauss-Seidel's spectral radius is typically smaller, meaning faster error reduction per iteration.</p>
+</div>
+
+<span class="layout-label">Required Table Layout — Jacobi Iteration (separate prev/new column groups)</span>
+<table class="exam-table">
+  <thead>
+    <tr><th>Iter</th><th>x₁ (prev)</th><th>x₂ (prev)</th><th>x₃ (prev)</th><th>x₁ (new)</th><th>x₂ (new)</th><th>x₃ (new)</th><th>Max |ε<sub>a</sub>| (%)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>1</td><td>0</td><td>0</td><td>0</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>2</td><td>(= x₁ new of iter 1)</td><td>(= x₂ new of iter 1)</td><td>(= x₃ new of iter 1)</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>⋯</td><td>⋯</td><td>⋯</td><td>⋯</td><td>⋯</td><td>⋯</td><td>⋯</td><td>⋯</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<h1 style="background:#34495e; color:white; padding:10px 20px; border-radius:4px; font-size:1.45em; margin-top:50px;">Part 2 — Curve Fitting &amp; Interpolation &nbsp;(50 pts)</h1>
+
+<div style="padding:0 8px;">
+<!-- ────────────────────────────────── P3 ────────────────────────── -->
+<h2 class="problem-header">Problem 3: Least-Squares Linear Regression &nbsp;(20 pts) <span class="sheet-tag">Sheet: P3_LeastSquares</span></h2>
+
+<p>Determine the best-fit linear model <strong>ŷ = a₀ + a₁x</strong> using the method of least squares for the data set below:</p>
+<p style="text-align:center; font-weight:bold; background:#f8f9fa; padding:10px; border-radius:4px;">
+  (1, 0.5) &nbsp; (2, 2.5) &nbsp; (3, 2.0) &nbsp; (4, 4.0) &nbsp; (5, 3.5) &nbsp; (6, 6.0) &nbsp; (7, 5.5)
+</p>
+
+<div class="score-breakdown">
+  <strong>■ Scoring Breakdown</strong>
+  <ul>
+    <li><strong>Summary Statistics Table (5 pts):</strong> Columns x, y, x², xy. Include row sums Σx, Σy, Σx², Σxy and count n.</li>
+    <li><strong>Coefficients via Normal Equations (5 pts):</strong>
+      <div class="math-block">
+        a₁ = (nΣxy − ΣxΣy) / (nΣx² − (Σx)²)<br><br>
+        a₀ = ȳ − a₁x̄ &nbsp;&nbsp; where &nbsp; x̄ = Σx/n &nbsp; and &nbsp; ȳ = Σy/n
+      </div>
+    </li>
+    <li><strong>Predicted Values &amp; Residuals (5 pts):</strong> Add columns ŷ = a₀ + a₁x and residual e = y − ŷ for every data point.</li>
+    <li><strong>Excel Chart (5 pts):</strong> Insert a Scatter Plot of the data with a linear trendline; display the regression equation and R² on the chart.</li>
+  </ul>
+</div>
+
+<div class="validation-box">
+  ✅ <strong>Target for Validation:</strong> &nbsp; Equation: <strong>ŷ = 0.0714 + 0.8393x</strong> &nbsp;|&nbsp; R²: <strong>≈ 0.8683</strong>. The sum of all residuals must equal 0.
+</div>
+
+<div class="step-box">
+  <strong>📋 Step-by-Step Excel Guide — P3_LeastSquares</strong>
+  <ol>
+    <li><b>Enter column headers in row 1:</b><br>
+      <span class="cell-ref">A1</span>="i" &nbsp; <span class="cell-ref">B1</span>="x" &nbsp; <span class="cell-ref">C1</span>="y" &nbsp; <span class="cell-ref">D1</span>="x²" &nbsp; <span class="cell-ref">E1</span>="xy" &nbsp; <span class="cell-ref">F1</span>="ŷ = a₀+a₁x" &nbsp; <span class="cell-ref">G1</span>="e = y−ŷ"</li>
+
+    <li><b>Enter the data in rows 2–8 (columns A, B, C):</b><br>
+      <span class="cell-ref">A2:A8</span> = 1, 2, 3, 4, 5, 6, 7 &nbsp;&nbsp; <span class="cell-ref">B2:B8</span> = 1, 2, 3, 4, 5, 6, 7 &nbsp;&nbsp; <span class="cell-ref">C2:C8</span> = 0.5, 2.5, 2.0, 4.0, 3.5, 6.0, 5.5</li>
+
+    <li><b>Enter computed columns in row 2, then copy down to row 8:</b>
+      <span class="formula-block">D2 =B2^2          ← x² for each data point
+E2 =B2*C2         ← xy for each data point</span>
+    </li>
+
+    <li><b>Enter the Sigma (summary) row in row 9:</b>
+      <span class="formula-block">A9  ="Σ"
+B9  =SUM(B2:B8)   ← Σx
+C9  =SUM(C2:C8)   ← Σy
+D9  =SUM(D2:D8)   ← Σx²
+E9  =SUM(E2:E8)   ← Σxy</span>
+    </li>
+
+    <li><b>Compute n and the statistics in column I (rows 2–10) — these cells feed the normal equations:</b>
+      <span class="formula-block">I2  ="n"          J2  =COUNT(B2:B8)         ← n = 7
+I3  ="Σx"         J3  =B9                  ← reference the sum row
+I4  ="Σy"         J4  =C9
+I5  ="Σx²"        J5  =D9
+I6  ="Σxy"        J6  =E9
+I7  ="x̄"          J7  =J3/J2               ← mean of x
+I8  ="ȳ"          J8  =J4/J2               ← mean of y
+I9  ="a₁"         J9  =(J2*J6-J3*J4)/(J2*J5-J3^2)   ← Normal equation for slope
+I10 ="a₀"         J10 =J8-J9*J7            ← Intercept = ȳ − a₁·x̄</span>
+    </li>
+
+    <li><b>Enter ŷ and residual formulas in row 2, copy down to row 8:</b>
+      <span class="formula-block">F2 =$J$10+$J$9*B2
+   → Uses absolute references ($J$10 = a₀, $J$9 = a₁) so they don't shift when copied down.
+   → This is ŷ = a₀ + a₁·x for each row.
+
+G2 =C2-F2
+   → Residual e = actual y − predicted ŷ.</span>
+      After copying to row 8, check that <span class="cell-ref">G9</span>=<span class="formula">=SUM(G2:G8)</span> equals (or is extremely close to) 0 — this confirms your regression is correct.
+    </li>
+
+    <li><b>Create the scatter chart:</b>
+      <ol style="list-style-type: lower-alpha; margin-top:6px;">
+        <li>Select columns B and C (x and y data only, rows 1–8).</li>
+        <li>Insert → Charts → Scatter (first option: Scatter with Only Markers).</li>
+        <li>Right-click any data point on the chart → "Add Trendline" → select <strong>Linear</strong>.</li>
+        <li>In the Format Trendline panel, check <strong>"Display Equation on chart"</strong> and <strong>"Display R-squared value on chart"</strong>.</li>
+        <li>Verify the chart equation matches your computed a₀ and a₁ values.</li>
+      </ol>
+    </li>
+  </ol>
+</div>
+
+<div class="hint-box">
+  <p><strong>▶ Why absolute references for a₀ and a₁:</strong> When you copy the ŷ formula from F2 down to F8, the B2 part should change to B3, B4, … but $J$10 and $J$9 must always point to the same cells. Use <strong>F4</strong> after clicking a cell reference to toggle absolute ($J$10) vs relative (J10).</p>
+  <p><strong>▶ Normal equations — avoid hard-coding:</strong> J9 and J10 must reference J2–J6, not manually typed numbers. The grader will change the data to verify your formulas are dynamic.</p>
+  <p><strong>▶ Residual sum check:</strong> The sum of all residuals Σe must equal 0 (or a near-zero floating-point value like 1E-15). If your sum is not near 0, your a₀ or a₁ formula is wrong.</p>
+</div>
+
+<span class="layout-label">Required Summary Statistics Table</span>
+<table class="exam-table">
+  <thead>
+    <tr><th>i</th><th>x</th><th>y</th><th>x²</th><th>xy</th><th>ŷ = a₀ + a₁x</th><th>e = y − ŷ</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>1</td><td>0.5</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>2</td><td>2</td><td>2.5</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>3</td><td>3</td><td>2.0</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>4</td><td>4</td><td>4.0</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>5</td><td>5</td><td>3.5</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>6</td><td>6</td><td>6.0</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>7</td><td>7</td><td>5.5</td><td></td><td></td><td></td><td></td></tr>
+    <tr style="font-weight:bold; background:#f0f0f0;">
+      <td>Σ</td><td>Σx</td><td>Σy</td><td>Σx²</td><td>Σxy</td><td>—</td><td>Σe = 0 ✓</td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin:4px 0; font-size:0.9em;"><em>In a separate section on the same sheet, show: n, x̄, ȳ, a₁, a₀ (computed via normal equations with cell references).</em></p>
+
+<!-- ────────────────────────────────── P4 ────────────────────────── -->
+<h2 class="problem-header">Problem 4: Newton's Divided Difference Interpolation &nbsp;(15 pts) <span class="sheet-tag">Sheet: P4_Newton</span></h2>
+
+<p>Using the data below, construct a Newton's Divided Difference interpolating polynomial and estimate <strong>f(2.5)</strong>:</p>
+<p style="text-align:center; font-weight:bold; background:#f8f9fa; padding:10px; border-radius:4px;">
+  (1, 0.5) &nbsp; (2, 2.5) &nbsp; (3, 2.0) &nbsp; (4, 4.0) &nbsp; (5, 3.5)
+</p>
+
+<div class="score-breakdown">
+  <strong>■ Scoring Breakdown</strong>
+  <ul>
+    <li><strong>Divided Difference Tableau (8 pts):</strong> Build the complete tableau. Each divided difference is defined as:
+      <div class="math-block">
+        f[xᵢ, xᵢ₊₁] = ( f[xᵢ₊₁] − f[xᵢ] ) / ( xᵢ₊₁ − xᵢ )<br><br>
+        f[xᵢ, …, xᵢ₊ₖ] = ( f[xᵢ₊₁,…,xᵢ₊ₖ] − f[xᵢ,…,xᵢ₊ₖ₋₁] ) / ( xᵢ₊ₖ − xᵢ )
+      </div>
+    </li>
+    <li><strong>Polynomial Write-out (4 pts):</strong> State the interpolating polynomial explicitly in a text box on the sheet:
+      <div class="math-block">
+        P(x) = f[x₀] + f[x₀,x₁](x−x₀) + f[x₀,x₁,x₂](x−x₀)(x−x₁) + f[x₀,x₁,x₂,x₃](x−x₀)(x−x₁)(x−x₂) + f[x₀,…,x₄](x−x₀)(x−x₁)(x−x₂)(x−x₃)
+      </div>
+    </li>
+    <li><strong>Interpolated Value f(2.5) (3 pts):</strong> Evaluate P(2.5) in a formula cell referencing your tableau coefficients — do not type the numbers manually.</li>
+  </ul>
+</div>
+
+<div class="validation-box">
+  ✅ <strong>Target for Validation:</strong> f(2.5) = <strong>2.015625</strong> (exact: 129/64).
+</div>
+
+<div class="step-box">
+  <strong>📋 Step-by-Step Excel Guide — P4_Newton</strong>
+  <ol>
+    <li><b>Enter headers and data in columns A and B (rows 1–6):</b><br>
+      <span class="cell-ref">A1</span>="xᵢ" &nbsp; <span class="cell-ref">B1</span>="f[xᵢ]" &nbsp; <span class="cell-ref">C1</span>="1st Div.Diff." &nbsp; <span class="cell-ref">D1</span>="2nd Div.Diff." &nbsp; <span class="cell-ref">E1</span>="3rd Div.Diff." &nbsp; <span class="cell-ref">F1</span>="4th Div.Diff."<br>
+      Enter x values A2:A6 = 1, 2, 3, 4, 5 &nbsp;&nbsp; and f(x) values B2:B6 = 0.5, 2.5, 2.0, 4.0, 3.5</li>
+
+    <li><b>1st Divided Differences in column C — enter in C2:C5 (C6 is blank):</b>
+      <span class="formula-block">C2 =(B3-B2)/(A3-A2)     ← f[x₁,x₂] = (f(2)−f(1))/(2−1) = 2.0
+C3 =(B4-B3)/(A4-A3)     ← f[x₂,x₃] = (f(3)−f(2))/(3−2) = −0.5
+C4 =(B5-B4)/(A5-A4)     ← f[x₃,x₄] = (f(4)−f(3))/(4−3) = 2.0
+C5 =(B6-B5)/(A6-A5)     ← f[x₄,x₅] = (f(5)−f(4))/(5−4) = −0.5
+C6 = (leave blank or type "—")</span>
+    </li>
+
+    <li><b>2nd Divided Differences in column D — enter in D2:D4 (D5 and D6 blank):</b>
+      <span class="formula-block">D2 =(C3-C2)/(A4-A2)     ← f[x₁,x₂,x₃] = (C3−C2)/(x₃−x₁) = −1.25
+D3 =(C4-C3)/(A5-A3)     ← f[x₂,x₃,x₄] = 1.25
+D4 =(C5-C4)/(A6-A4)     ← f[x₃,x₄,x₅] = −1.25</span>
+      <em>Note: each 2nd diff spans 3 x-values. The denominator is x[row+2] − x[row].</em>
+    </li>
+
+    <li><b>3rd Divided Differences in column E — enter in E2:E3 only:</b>
+      <span class="formula-block">E2 =(D3-D2)/(A5-A2)     ← f[x₁,x₂,x₃,x₄] = (D3−D2)/(x₄−x₁) ≈ 0.8333
+E3 =(D4-D3)/(A6-A3)     ← f[x₂,x₃,x₄,x₅] = −0.8333</span>
+    </li>
+
+    <li><b>4th Divided Difference in column F — enter only in F2:</b>
+      <span class="formula-block">F2 =(E3-E2)/(A6-A2)     ← f[x₁,…,x₅] = (E3−E2)/(x₅−x₁) ≈ −0.4167</span>
+    </li>
+
+    <li><b>Enter the x value to evaluate and compute P(x):</b>
+      <span class="formula-block">H1 ="x to evaluate"
+I1 =2.5                  ← type the value here; the formula below will reference it
+
+H2 ="P(x) ="
+I2 =B2
+   +C2*(I1-A2)
+   +D2*(I1-A2)*(I1-A3)
+   +E2*(I1-A2)*(I1-A3)*(I1-A4)
+   +F2*(I1-A2)*(I1-A3)*(I1-A4)*(I1-A5)
+
+     → Each term adds the next Newton coefficient multiplied by the
+       growing product of (x − xᵢ) terms.
+     → B2 = f[x₀] = 0.5
+     → C2 = f[x₀,x₁] = first divided difference (top of column C)
+     → D2 = f[x₀,x₁,x₂] = second divided difference (top of column D)
+     → E2 = f[x₀,x₁,x₂,x₃] = third divided difference (top of column E)
+     → F2 = f[x₀,x₁,x₂,x₃,x₄] = fourth divided difference (top of column F)</span>
+      Type the entire formula as one expression on a single line in Excel — shown on multiple lines above for readability only.
+    </li>
+
+    <li><b>Add a text box</b> (Insert → Text Box) writing out the polynomial explicitly:
+      <br><em>P(x) = 0.5 + 2.0(x−1) + (−1.25)(x−1)(x−2) + (0.8333)(x−1)(x−2)(x−3) + (−0.4167)(x−1)(x−2)(x−3)(x−4)</em></li>
+  </ol>
+</div>
+
+<div class="hint-box">
+  <p><strong>▶ Staircase structure:</strong> Column C has 4 values, D has 3, E has 2, F has 1. Each column has one fewer entry than the one before it. Lower cells in each column must be left blank or marked "—".</p>
+  <p><strong>▶ Denominator rule:</strong> For a divided difference involving k+1 points starting at row i, the denominator is always A[i+k] − A[i] (the LAST x minus the FIRST x in that difference's span).</p>
+  <p><strong>▶ Coefficients = top row of each column:</strong> The Newton polynomial coefficients are B2, C2, D2, E2, F2 — always the top (first) entry of each column. This is why the formula in I2 references the "2" row throughout.</p>
+  <p><strong>▶ Single formula cell for P(x):</strong> Reference I1 (the x value) in your polynomial formula — do not hard-code 2.5. Changing I1 to any other x should instantly recalculate P(x).</p>
+</div>
+
+<span class="layout-label">Required Divided Difference Tableau (— = intentionally blank)</span>
+<table class="exam-table">
+  <thead>
+    <tr><th>xᵢ</th><th>f[xᵢ]</th><th>1st Div. Diff.</th><th>2nd Div. Diff.</th><th>3rd Div. Diff.</th><th>4th Div. Diff.</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td>0.5</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td>2</td><td>2.5</td><td></td><td></td><td></td><td>—</td></tr>
+    <tr><td>3</td><td>2.0</td><td></td><td></td><td>—</td><td>—</td></tr>
+    <tr><td>4</td><td>4.0</td><td></td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td>5</td><td>3.5</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr style="font-weight:bold; background:#f0f0f0;"><td colspan="5" style="text-align:right;">P(2.5) =</td><td></td></tr>
+  </tbody>
+</table>
+
+<!-- ────────────────────────────────── P5 ────────────────────────── -->
+<h2 class="problem-header">Problem 5: Lagrange Interpolation &nbsp;(15 pts) <span class="sheet-tag">Sheet: P5_Lagrange</span></h2>
+
+<p>Using the <strong>same data set as Problem 4</strong>, estimate <strong>f(2.5)</strong> via Lagrange interpolation and compare your result with Problem 4.</p>
+
+<div class="score-breakdown">
+  <strong>■ Scoring Breakdown</strong>
+  <ul>
+    <li><strong>Basis Polynomials L<sub>k</sub>(x) (8 pts):</strong> Compute each basis polynomial evaluated at x = 2.5. Each L<sub>k</sub>(x) is defined as:
+      <div class="math-block">
+        L<sub>k</sub>(x) = ∏<sub>j ≠ k</sub> (x − xⱼ) / (xₖ − xⱼ)
+      </div>
+      For 5 data points (k = 0, 1, 2, 3, 4), you will have 5 basis polynomials, each a product of 4 terms.
+    </li>
+    <li><strong>Interpolated Value (4 pts):</strong>
+      <div class="math-block">P(2.5) = Σ<sub>k=0</sub><sup>4</sup> f(xₖ) · L<sub>k</sub>(2.5)</div>
+    </li>
+    <li><strong>Comparison Note (3 pts):</strong> In a text box, state whether Lagrange and Newton's results agree and explain why both methods must yield the same unique polynomial.</li>
+  </ul>
+</div>
+
+<div class="validation-box">
+  ✅ <strong>Target for Validation:</strong> P(2.5) = <strong>2.015625</strong>. This must match Problem 4 exactly. If it does not, one of the L<sub>k</sub> formulas has an error.
+</div>
+
+<div class="step-box">
+  <strong>📋 Step-by-Step Excel Guide — P5_Lagrange</strong>
+  <ol>
+    <li><b>Enter headers and data in rows 1–6:</b><br>
+      <span class="cell-ref">A1</span>="k" &nbsp; <span class="cell-ref">B1</span>="xₖ" &nbsp; <span class="cell-ref">C1</span>="f(xₖ)" &nbsp; <span class="cell-ref">D1</span>="Lₖ(x)" &nbsp; <span class="cell-ref">E1</span>="f(xₖ)·Lₖ(x)"<br>
+      <span class="cell-ref">A2:A6</span> = 0, 1, 2, 3, 4 &nbsp;&nbsp; <span class="cell-ref">B2:B6</span> = 1, 2, 3, 4, 5 &nbsp;&nbsp; <span class="cell-ref">C2:C6</span> = 0.5, 2.5, 2.0, 4.0, 3.5</li>
+
+    <li><b>Enter the evaluation point in a named cell:</b><br>
+      <span class="cell-ref">G1</span> = "x =" &nbsp;&nbsp; <span class="cell-ref">H1</span> = 2.5 &nbsp;&nbsp; ← put 2.5 here. All L<sub>k</sub> formulas reference $H$1 so you can change the evaluation point in one place.</li>
+
+    <li><b>Enter Lₖ formulas in column D (one per row).</b> Each L<sub>k</sub> is a product of (x−xⱼ) terms in the numerator and (xₖ−xⱼ) terms in the denominator, excluding j = k:
+      <span class="formula-block">D2 (L₀ — excludes k=0, so product over j=1,2,3,4):
+=  ($H$1-$B$3)*($H$1-$B$4)*($H$1-$B$5)*($H$1-$B$6)
+ / (($B$2-$B$3)*($B$2-$B$4)*($B$2-$B$5)*($B$2-$B$6))
+
+D3 (L₁ — excludes k=1, so product over j=0,2,3,4):
+=  ($H$1-$B$2)*($H$1-$B$4)*($H$1-$B$5)*($H$1-$B$6)
+ / (($B$3-$B$2)*($B$3-$B$4)*($B$3-$B$5)*($B$3-$B$6))
+
+D4 (L₂ — excludes k=2, so product over j=0,1,3,4):
+=  ($H$1-$B$2)*($H$1-$B$3)*($H$1-$B$5)*($H$1-$B$6)
+ / (($B$4-$B$2)*($B$4-$B$3)*($B$4-$B$5)*($B$4-$B$6))
+
+D5 (L₃ — excludes k=3, so product over j=0,1,2,4):
+=  ($H$1-$B$2)*($H$1-$B$3)*($H$1-$B$4)*($H$1-$B$6)
+ / (($B$5-$B$2)*($B$5-$B$3)*($B$5-$B$4)*($B$5-$B$6))
+
+D6 (L₄ — excludes k=4, so product over j=0,1,2,3):
+=  ($H$1-$B$2)*($H$1-$B$3)*($H$1-$B$4)*($H$1-$B$5)
+ / (($B$6-$B$2)*($B$6-$B$3)*($B$6-$B$4)*($B$6-$B$5))</span>
+      <em>Pattern rule:</em> In the numerator, the factors are ($H$1 − $B$[all rows EXCEPT current row]). In the denominator, the factors are ($B$[current row] − $B$[all rows EXCEPT current row]).
+    </li>
+
+    <li><b>Verify the basis polynomials sum to 1:</b> Enter in <span class="cell-ref">G3</span>: <span class="formula">=SUM(D2:D6)</span>. The result must equal exactly 1.0. If not, check your L<sub>k</sub> formulas.</li>
+
+    <li><b>Enter the f(xₖ)·Lₖ column in E2:E6:</b>
+      <span class="formula-block">E2 =C2*D2     ← f(x₀)·L₀(2.5)
+E3 =C3*D3     ...copy down to E6</span>
+    </li>
+
+    <li><b>Compute P(2.5) in the final row (row 7):</b>
+      <span class="formula-block">A7 ="P(2.5)"
+E7 =SUM(E2:E6)     ← This is your interpolated value</span>
+    </li>
+
+    <li><b>Add the Comparison Text Box:</b> Insert → Text Box. State that the Lagrange result matches Newton's result and explain uniqueness of the interpolating polynomial.</li>
+  </ol>
+</div>
+
+<div class="hint-box">
+  <p><strong>▶ One basis polynomial per data point:</strong> For n = 5 data points, you compute 5 basis polynomials, L₀ through L₄. Each one is a rational product with 4 factors in both numerator and denominator.</p>
+  <p><strong>▶ Which j to exclude:</strong> For L<sub>k</sub>, you exclude xₖ itself from both the numerator and denominator products. Numerator factors: (x − xⱼ) for all j ≠ k. Denominator factors: (xₖ − xⱼ) for all j ≠ k. For example, D3 (L₁, where k=1, xₖ=B3) excludes B3 from both products and uses B2, B4, B5, B6.</p>
+  <p><strong>▶ Verify with SUM(D2:D6) = 1:</strong> A key property of Lagrange basis polynomials is that they sum to 1 for any x. If your sum is not exactly 1, one of the L<sub>k</sub> formulas is wrong.</p>
+  <p><strong>▶ Comparison note content:</strong> Both methods must agree because there is exactly one polynomial of degree ≤ n that passes through n+1 given data points. Newton's and Lagrange's forms are two different algebraic representations of the same unique polynomial.</p>
+</div>
+
+<span class="layout-label">Required Table Layout — Lagrange Interpolation at x = 2.5</span>
+<table class="exam-table">
+  <thead>
+    <tr><th>k</th><th>xₖ</th><th>f(xₖ)</th><th>L<sub>k</sub>(2.5)</th><th>f(xₖ) · L<sub>k</sub>(2.5)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>0</td><td>1</td><td>0.5</td><td></td><td></td></tr>
+    <tr><td>1</td><td>2</td><td>2.5</td><td></td><td></td></tr>
+    <tr><td>2</td><td>3</td><td>2.0</td><td></td><td></td></tr>
+    <tr><td>3</td><td>4</td><td>4.0</td><td></td><td></td></tr>
+    <tr><td>4</td><td>5</td><td>3.5</td><td></td><td></td></tr>
+    <tr style="font-weight:bold; background:#f0f0f0;">
+      <td colspan="3"><strong>Verification: Σ Lₖ = 1.0 ✓</strong></td>
+      <td></td>
+      <td><strong>P(2.5) =</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ════════════ RUBRIC ══════════════════════════════════════════ -->
+<h3 style="margin-top:50px; color:#7f8c8d; text-transform:uppercase; font-size:1.05em; border-left:5px solid #bdc3c7; padding-left:15px;">Grading Rubric</h3>
+<table style="width:100%; border-collapse:collapse; margin-top:12px; font-size:0.88em;">
+  <thead>
+    <tr style="background:#34495e; color:white;">
+      <th style="border:1px solid #ddd; padding:11px;">Criteria</th>
+      <th style="border:1px solid #ddd; padding:11px;">Excellent (100%)</th>
+      <th style="border:1px solid #ddd; padding:11px;">Satisfactory (75%)</th>
+      <th style="border:1px solid #ddd; padding:11px;">Needs Improvement (50%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border:1px solid #ddd; padding:9px; font-weight:bold;">Accuracy</td>
+      <td style="border:1px solid #ddd; padding:9px;">Results match validation targets exactly.</td>
+      <td style="border:1px solid #ddd; padding:9px;">Minor calculation errors; method is correct.</td>
+      <td style="border:1px solid #ddd; padding:9px;">Significant logical or formula errors.</td>
+    </tr>
+    <tr style="background:#fafafa;">
+      <td style="border:1px solid #ddd; padding:9px; font-weight:bold;">Excel Logic</td>
+      <td style="border:1px solid #ddd; padding:9px;">Dynamic formulas and cell references throughout; no hard-coded values in formula cells.</td>
+      <td style="border:1px solid #ddd; padding:9px;">Some values hard-coded; most formulas use references.</td>
+      <td style="border:1px solid #ddd; padding:9px;">Mostly manual entry; few or no formulas used.</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #ddd; padding:9px; font-weight:bold;">Organization</td>
+      <td style="border:1px solid #ddd; padding:9px;">Correct sheet names; professional layout; clear labels, headers, and text boxes.</td>
+      <td style="border:1px solid #ddd; padding:9px;">Somewhat cluttered but all required tables present.</td>
+      <td style="border:1px solid #ddd; padding:9px;">Missing sheets, incorrect names, or difficult to follow.</td>
+    </tr>
+    <tr style="background:#fafafa;">
+      <td style="border:1px solid #ddd; padding:9px; font-weight:bold;">Completeness</td>
+      <td style="border:1px solid #ddd; padding:9px;">All required columns, text boxes, and charts present.</td>
+      <td style="border:1px solid #ddd; padding:9px;">One or two required elements missing.</td>
+      <td style="border:1px solid #ddd; padding:9px;">Several required elements absent.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ════════════ FOOTER ══════════════════════════════════════════ -->
+<div style="margin-top:60px; padding-top:20px; border-top:1px solid #eee; font-size:0.85em; text-align:center; color:#7f8c8d;">
+  <p><em>— END OF EXAM —</em></p>
+  <div style="display:flex; justify-content:space-around; flex-wrap:wrap; margin-top:40px; color:#2c3e50; gap:20px;">
+    <div style="text-align:center;">
+      <p style="margin:0;"><strong>ENGR. JUNE VERGEL P. QUEROL</strong></p>
+      <p style="margin:0;">Instructor</p>
+    </div>
+    <div style="text-align:center;">
+      <p style="margin:0;"><strong>ENGR. MYKE ALBERT M. TEJADA, MSEE-CpE</strong></p>
+      <p style="margin:0;">OIC-Dean</p>
+    </div>
+    <div style="text-align:center;">
+      <p style="margin:0;"><strong>CINDY T. DULDULAO, MPH</strong></p>
+      <p style="margin:0;">QA Moderator for Academics</p>
+    </div>
+    <div style="text-align:center;">
+      <p style="margin:0;"><strong>CB RONIE E. SUGAROL, MPBM</strong></p>
+      <p style="margin:0;">Quality Assurance Director</p>
+    </div>
+    <div style="text-align:center;">
+      <p style="margin:0;"><strong>WINNIE T. CANCEJO, PH. D.</strong></p>
+      <p style="margin:0;">VP for Academic Affairs</p>
+    </div>
+  </div>
+</div>
+
+</div>
